@@ -86,6 +86,8 @@ These models are free to use, customizable, and can often be run locally. They a
 
 
 
+====================================================================================
+
 | Category | Frontier (Closed-Source Models) | Open-Source Models |
 |----------|----------------------------------|--------------------|
 | **Examples** | **GPT-5 (OpenAI)**, **Claude Sonnet (Anthropic)**, **Gemini 2.5 Pro (Google)**, **Grok (X.ai)** | **LLaMA 3.2 (Meta)**, **Mistral**, **DeepSeek**, **Ollama** |
