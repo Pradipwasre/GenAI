@@ -86,7 +86,8 @@ These models are free to use, customizable, and can often be run locally. They a
 
 
 
-====================================================================================
+------------------------------------------------------------------------
+
 
 | Category | Frontier (Closed-Source Models) | Open-Source Models |
 |----------|----------------------------------|--------------------|
