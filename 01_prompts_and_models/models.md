@@ -41,6 +41,7 @@ Here are the official sites for the major frontier models:
 
 These models are proprietary, subscription-based, and designed for enterprise-grade performance. They are accessed via APIs or platform-specific clients.
 
+----------------------------------------------------------------
 
 
 ## Open-Source LLMs
