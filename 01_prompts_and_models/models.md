@@ -2,6 +2,91 @@
 
 # Frontier vs Open-Source LLMs
 
+
+# Closed-Source (Frontier) LLMs
+
+## What They Are
+Closed-source or "frontier" LLMs are proprietary models developed by major AI companies. Examples include:
+- **OpenAI GPT-5**
+- **Anthropic Claude (Sonnet series)**
+- **Google Gemini (2.5 Pro, upcoming Gemini 3)**
+- **Grok (X.ai, Elon Musk)**
+
+## Why They Exist
+- Push the boundaries of generative AI with cutting-edge performance.
+- Provide enterprise-ready solutions with strong reliability and support.
+- Monetize advanced AI research through subscription and API services.
+- Offer multimodal capabilities (text, vision, code) and advanced reasoning.
+
+## Where They’re Used
+- **Enterprise applications** (customer support, automation, analytics).
+- **Coding assistants** (Claude Sonnet, GPT).
+- **Education & productivity tools** (Gemini free student versions).
+- **Social platforms** (Grok integrated with X).
+
+## How to Work With Them
+- Access via **APIs** (HTTP endpoints or Python clients).
+- Subscription tiers (≈ $20/month for standard access, higher for enterprise).
+- Simple workflow: send a prompt → receive structured response.
+- Limited customization; fine-tuning often restricted or costly.
+- Best for production apps where scalability and reliability are critical.
+
+
+# Frontier (Closed-Source) LLMs
+
+Here are the official sites for the major frontier models:
+
+- [OpenAI GPT (ChatGPT)](https://openai.com)
+- [Anthropic Claude](https://claude.ai)
+- [Google Gemini](https://gemini.google.com)
+- [xAI Grok](https://grok.com)
+
+These models are proprietary, subscription-based, and designed for enterprise-grade performance. They are accessed via APIs or platform-specific clients.
+
+
+
+# Open-Source LLMs
+
+## What They Are
+Open-source LLMs are community-driven models released under open licenses. Examples include:
+- **LLaMA (Meta, latest 3.2 version)**
+- **Mistral (Mixture of Experts architecture)**
+- **DeepSeek**
+- **Ollama (local platform for running models)**
+
+## Why They Exist
+- Democratize AI access by making models free and customizable.
+- Encourage research, experimentation, and innovation.
+- Provide alternatives to closed-source models for privacy-sensitive tasks.
+- Allow developers to run models locally without cloud costs.
+
+## Where They’re Used
+- **Student projects** and learning environments.
+- **Research labs** exploring new architectures.
+- **Privacy-sensitive applications** (local deployment).
+- **Experimentation** with fine-tuning and custom workflows.
+
+## How to Work With Them
+- Download and install models (e.g., LLaMA 3.2 with 3B parameters for local use).
+- Use platforms like **Ollama** to simplify local runs with OpenAI-compatible endpoints.
+- Experiment with fine-tuning and retraining for specific tasks.
+- Requires hardware (GPU/CPU) for larger models (e.g., 70B parameters).
+- Best for hands-on practice, customization, and building unique workflows.
+
+
+# Open-Source LLMs
+
+Here are the official sites for the major open-source models:
+
+- [Meta LLaMA](https://ai.meta.com/llama)
+- [Mistral AI](https://mistral.ai)
+- [DeepSeek AI](https://www.deepseek.com)
+- [Ollama](https://ollama.com)
+
+These models are free to use, customizable, and can often be run locally. They are ideal for students, researchers, and developers who want privacy, experimentation, or hands-on practice without subscription costs.
+
+
+
 | Category | Frontier (Closed-Source Models) | Open-Source Models |
 |----------|----------------------------------|--------------------|
 | **Examples** | **GPT-5 (OpenAI)**, **Claude Sonnet (Anthropic)**, **Gemini 2.5 Pro (Google)**, **Grok (X.ai)** | **LLaMA 3.2 (Meta)**, **Mistral**, **DeepSeek**, **Ollama** |
