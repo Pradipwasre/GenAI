@@ -46,6 +46,7 @@ ollama pull gemma
 # Stop a running model
 Ctrl + C
 
+```
 
 Example Prompt : Once a model is running, type directly into the terminal:
 
