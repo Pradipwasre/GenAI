@@ -29,11 +29,6 @@ Instead of connecting to cloud services like ChatGPT or Claude, Ollama allows yo
 3. Run your first model:
 
 ```bash
-ollama run llama2
-
-
-Common Commands
-
 # Run a model
 ollama run llama2
 
@@ -45,6 +40,30 @@ ollama pull gemma
 
 # Stop a running model
 Ctrl + C
+
+# Show help for Ollama
+ollama help
+
+# Show details about a specific model
+ollama show llama2
+
+# Delete a model from local storage
+ollama rm llama2
+
+# Create a new model from a Modelfile
+ollama create mymodel -f ./Modelfile
+
+# Copy an existing model to a new name
+ollama cp llama2 mymodel
+
+# Start Ollama server (if not already running)
+ollama serve
+
+# Run a prompt inline without interactive mode
+ollama run llama2 "Hello, world!"
+
+# Run with custom parameters (e.g., temperature, top-p)
+ollama run llama2 --temperature 0.7 --top-p 0.9
 
 ```
 
