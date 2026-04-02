@@ -510,3 +510,31 @@ Always paired with Softmax activation in the output layer.
 | Huber Loss                | Hybrid of MSE and MAE — robust yet differentiable                    |
 | Binary Cross-Entropy      | Classification loss for 2-class problems                             |
 | Categorical Cross-Entropy | Classification loss for 3+ class problems                            |
+
+
+## Interview Cheatsheet : All Key Terms
+
+| Term | Interview-Style Answer |
+|---|---|
+| Forward Propagation | It is the process where input data passes through the network layer by layer — applying weights, bias, and activation functions — to produce a final prediction. We always run this first before computing the loss. |
+| Backward Propagation | After computing the loss, we send the error signal backward through the network using the chain rule to calculate gradients for each weight, so we know how much to adjust them to reduce the loss. |
+| Weight (w) | Weights are learnable parameters that control how much influence each input has on a neuron's output. During training, backpropagation updates these weights to minimize the loss. |
+| Bias (b) | Bias is an extra learnable parameter added to the weighted sum. It allows a neuron to activate even when all input values are zero, giving the model more flexibility to fit the data. |
+| Activation Function | A mathematical function applied after the weighted sum to introduce non-linearity. Without it, no matter how many layers we stack, the network behaves like a single linear model and cannot learn complex patterns. |
+| Loss Function | A function that measures how far the model's prediction is from the true label. It gives us a single number that we try to minimize during training. The choice of loss function depends on the task — regression or classification. |
+| Gradient | The gradient is the partial derivative of the loss with respect to a weight. It tells us the slope of the loss curve at that point — specifically, in which direction and by how much we should update the weight to reduce the loss. |
+| Gradient Descent | An iterative optimization algorithm that updates model weights in the direction opposite to the gradient, moving toward the global minimum of the loss function. The size of each step is controlled by the learning rate. |
+| Learning Rate (eta) | A hyperparameter that controls how large each weight update step is during gradient descent. Too large causes the model to overshoot and diverge. Too small causes extremely slow convergence. Typical values are 0.001 to 0.01. |
+| Chain Rule | A calculus rule used in backpropagation to compute gradients through multiple layers. It breaks down the derivative of a composite function into a product of simpler derivatives, layer by layer, from output back to input. |
+| Vanishing Gradient | A problem that occurs in deep networks when gradients shrink exponentially as they propagate backward through layers. Activation functions like Sigmoid have derivatives between 0 and 0.25, so multiplying many of these together causes early layers to receive near-zero gradients and stop learning. |
+| Epoch | One complete pass through the entire training dataset — both forward and backward propagation across all samples. Training typically requires many epochs before the model converges to a good solution. |
+| Sigmoid | An activation function that outputs values between 0 and 1. It is used in binary classification output layers because its output can be interpreted as a probability. However, it suffers from the vanishing gradient problem and should not be used in hidden layers of deep networks. |
+| Tanh | An activation function that outputs values between -1 and +1. It is zero-centered, which makes gradient updates more efficient than Sigmoid. However, it still suffers from vanishing gradients in very deep networks. |
+| ReLU | Rectified Linear Unit. It outputs 0 for negative inputs and the input value itself for positive inputs. It is the default choice for hidden layers because it is computationally efficient, avoids vanishing gradients for positive values, and enables faster convergence. Its main weakness is the dead neuron problem. |
+| Leaky ReLU | A variant of ReLU that fixes the dead neuron problem by allowing a small negative slope (0.01 * x) for negative inputs instead of outputting zero. This ensures gradients never become exactly zero, so all neurons continue to learn. |
+| Softmax | An activation function used in the output layer for multi-class classification. It converts raw output scores (logits) into a probability distribution where all values sum to 1, allowing us to interpret each value as the probability of belonging to that class. |
+| MSE | Mean Squared Error. A regression loss function that squares the difference between prediction and true value. It converges quickly and has a single global minimum, but it is sensitive to outliers because large errors get penalized exponentially. |
+| MAE | Mean Absolute Error. A regression loss function that takes the absolute difference between prediction and true value. It is more robust to outliers than MSE because it penalizes errors linearly, but it is not differentiable at zero which makes optimization slightly harder. |
+| Huber Loss | A hybrid regression loss that behaves like MSE for small errors and like MAE for large errors, controlled by a threshold hyperparameter delta. It gives the best of both worlds — fast convergence on small errors and robustness to outliers on large errors. |
+| Binary Cross-Entropy | The standard loss function for binary classification tasks where the output is either 0 or 1. It heavily penalizes confident wrong predictions using a logarithmic scale. It is always paired with a Sigmoid activation in the output layer. |
+| Categorical Cross-Entropy | The standard loss function for multi-class classification tasks with 3 or more classes. It measures the difference between the predicted probability distribution and the true one-hot encoded label. It is always paired with a Softmax activation in the output layer. |
