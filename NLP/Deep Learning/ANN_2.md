@@ -470,4 +470,43 @@ Always paired with Softmax activation in the output layer.
 
 ## Quick Reference — What to Use When
 
-    Problem Type          Hidde
+    Problem Type          Hidden Layers       Output Layer     Loss Function
+    ─────────────────────────────────────────────────────────────────────────
+    Binary Classification  ReLU / Leaky ReLU  Sigmoid          Binary Cross-Entropy
+    Multi-Class            ReLU / Leaky ReLU  Softmax          Categorical Cross-Entropy
+    Regression             ReLU / Leaky ReLU  Linear (none)    MSE / MAE / Huber
+    ─────────────────────────────────────────────────────────────────────────
+
+    Learning Rate Recommendations:
+      Start with  : 0.001
+      If too slow : try 0.01
+      If unstable : reduce back to 0.0001
+
+---
+
+## Key Vocabulary Cheatsheet
+
+| Term                      | Simple Definition                                                    |
+|---------------------------|----------------------------------------------------------------------|
+| Forward Propagation       | Passing input data through the network to get a prediction           |
+| Backward Propagation      | Sending error backward through the network to update weights         |
+| Weight (w)                | Controls how much influence an input has on a neuron                 |
+| Bias (b)                  | Allows a neuron to activate even when all inputs are zero            |
+| Activation Function       | Introduces non-linearity into the network                            |
+| Loss Function             | Measures how wrong the prediction is                                 |
+| Gradient                  | The slope of the loss curve — shows direction to update weights      |
+| Gradient Descent          | Optimization algorithm that minimizes loss by updating weights       |
+| Learning Rate (eta)       | Controls the size of each weight update step                         |
+| Chain Rule                | Math rule that allows gradients to flow backward through layers      |
+| Vanishing Gradient        | When gradients shrink to near zero in early layers, stalling learning|
+| Epoch                     | One complete pass through the entire training dataset                |
+| Sigmoid                   | Activation outputting 0–1, used for binary output layers             |
+| Tanh                      | Activation outputting -1 to +1, zero-centered                       |
+| ReLU                      | Activation outputting 0 to infinity, default for hidden layers       |
+| Leaky ReLU                | ReLU variant that fixes the dead neuron problem                      |
+| Softmax                   | Converts scores to probabilities for multi-class output layers       |
+| MSE                       | Mean Squared Error — regression loss sensitive to outliers           |
+| MAE                       | Mean Absolute Error — regression loss robust to outliers             |
+| Huber Loss                | Hybrid of MSE and MAE — robust yet differentiable                    |
+| Binary Cross-Entropy      | Classification loss for 2-class problems                             |
+| Categorical Cross-Entropy | Classification loss for 3+ class problems                            |
