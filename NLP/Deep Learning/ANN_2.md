@@ -792,3 +792,244 @@ Always paired with Softmax activation in the output layer.
       L  =  -[ 0*log(0.2687)  +  1*log(0.5979)  +  0*log(0.1334) ]
       L  =  -log(0.5979)
       L  =  0.5148
+
+      ----------
+
+
+
+      # Weight Update — How the Network Actually Learns
+
+> After forward pass gives us Loss, we now go backward and update every weight.
+> Every number below is carried forward from the forward pass above.
+
+---
+
+## What We Already Know (from forward pass)
+
+    Inputs      :  x1 = 1.0,   x2 = 0.5,   x3 = -0.8
+    Weights     :  w1 = 0.4,   w2 = 0.6,   w3 = 0.5,   w4 = 0.8
+    Biases      :  b1 = 0.1,   b2 = 0.0
+    Hidden      :  y  = 0.40   (weighted sum)
+                   z  = 0.40   (after ReLU)
+    Output      :  y_out = 0.32
+                   y_hat = 0.5793   (after Sigmoid)
+    True label  :  y = 1
+    Loss        :  L = 0.5456
+    Learn rate  :  η = 0.1
+
+---
+
+## The One Formula That Updates Every Weight
+
+    w_new  =  w_old  -  η  *  (∂L / ∂w_old)
+
+    
+      new weight  =  old weight  -  learning rate  *  gradient
+
+    The gradient (∂L / ∂w) tells us:
+      positive gradient  →  weight was too high  →  decrease it
+      negative gradient  →  weight was too low   →  increase it
+
+---
+
+## Step 1 — Gradient of Loss w.r.t. y_hat
+
+    This is where backprop starts. We differentiate the Loss formula.
+
+    Loss formula   :  L = -[ y * log(y_hat) + (1-y) * log(1 - y_hat) ]
+    Derivative     :  ∂L / ∂y_hat  =  -y / y_hat  +  (1-y) / (1 - y_hat)
+
+    Plug in values (y = 1,  y_hat = 0.5793):
+      ∂L / ∂y_hat  =  -1 / 0.5793  +  (1-1) / (1 - 0.5793)
+      ∂L / ∂y_hat  =  -1.7262      +  0
+      ∂L / ∂y_hat  =  -1.7262
+
+    Where each number came from:
+      -1 / 0.5793   →   true label y=1 divided by y_hat=0.5793
+      second term   →   zero because (1 - y) = (1 - 1) = 0
+
+---
+
+## Step 2 — Gradient Through Sigmoid (at output neuron)
+
+    Sigmoid derivative formula:
+      ∂y_hat / ∂y_out  =  y_hat * (1 - y_hat)
+
+    Plug in (y_hat = 0.5793):
+      ∂y_hat / ∂y_out  =  0.5793 * (1 - 0.5793)
+      ∂y_hat / ∂y_out  =  0.5793 * 0.4207
+      ∂y_hat / ∂y_out  =  0.2437
+
+    Where each number came from:
+      0.5793   →   y_hat from forward pass
+      0.4207   →   (1 - 0.5793)
+
+---
+
+## Step 3 — Update w4  (weight between hidden and output neuron)
+
+    Chain rule for w4:
+      ∂L / ∂w4  =  (∂L / ∂y_hat)  *  (∂y_hat / ∂y_out)  *  (∂y_out / ∂w4)
+
+    ∂y_out / ∂w4  =  z
+    Because:  y_out = w4 * z + b2
+    So:       ∂y_out / ∂w4 = z = 0.40   (hidden output from forward pass)
+
+    Put it all together:
+      ∂L / ∂w4  =  (-1.7262)  *  0.2437  *  0.40
+      ∂L / ∂w4  =  (-1.7262)  *  0.09748
+      ∂L / ∂w4  =  -0.1683
+
+    Where each number came from:
+      -1.7262   →   ∂L/∂y_hat  from Step 1
+       0.2437   →   Sigmoid derivative from Step 2
+       0.40     →   z value from forward pass (ReLU output)
+
+    Apply update rule:
+      w4_new  =  w4_old  -  η  *  (∂L / ∂w4)
+      w4_new  =  0.80    -  0.1  *  (-0.1683)
+      w4_new  =  0.80    +  0.01683
+      w4_new  =  0.8168
+
+    w4 increased from 0.800 to 0.817
+    Makes sense: gradient was negative so weight needed to go UP.
+
+---
+
+## Step 4 — Carry Gradient Back Through ReLU
+
+    Before we can update w1, w2, w3 we need the gradient at z.
+
+    ∂L / ∂z  =  (∂L / ∂y_hat)  *  (∂y_hat / ∂y_out)  *  (∂y_out / ∂z)
+
+    ∂y_out / ∂z  =  w4
+    Because:  y_out = w4 * z + b2
+    So:       ∂y_out / ∂z = w4 = 0.80
+
+    ∂L / ∂z  =  (-1.7262)  *  0.2437  *  0.80
+    ∂L / ∂z  =  (-1.7262)  *  0.19496
+    ∂L / ∂z  =  -0.3366
+
+    Where each number came from:
+      -1.7262   →   ∂L/∂y_hat  from Step 1
+       0.2437   →   Sigmoid derivative from Step 2
+       0.80     →   w4 value (old weight, before update)
+
+    Now carry through ReLU:
+      ReLU derivative:  ∂z / ∂y  =  1  if y > 0
+                                     0  if y <= 0
+
+      Our y = 0.40  →  positive  →  ∂z / ∂y = 1
+
+      ∂L / ∂y  =  ∂L/∂z  *  ∂z/∂y
+      ∂L / ∂y  =  -0.3366  *  1
+      ∂L / ∂y  =  -0.3366
+
+    Where each number came from:
+      -0.3366   →   ∂L/∂z calculated just above
+       1        →   ReLU derivative because y = 0.40 > 0
+
+---
+
+## Step 5 — Update w1, w2, w3  (input weights)
+
+    Chain rule for each input weight:
+      ∂L / ∂wi  =  ∂L/∂y  *  ∂y/∂wi
+
+    ∂y / ∂wi  =  xi
+    Because:  y = w1*x1 + w2*x2 + w3*x3 + b1
+    So:       differentiating w.r.t. w1 gives x1, w.r.t. w2 gives x2, etc.
+
+    ─────────────────────────────────────────────────────────────
+    w1 update:
+      ∂L / ∂w1  =  ∂L/∂y  *  x1  =  (-0.3366)  *  1.0  =  -0.3366
+      w1_new    =  w1_old  -  η  *  (∂L / ∂w1)
+      w1_new    =  0.40    -  0.1  *  (-0.3366)
+      w1_new    =  0.40    +  0.03366
+      w1_new    =  0.4337
+
+    ─────────────────────────────────────────────────────────────
+    w2 update:
+      ∂L / ∂w2  =  ∂L/∂y  *  x2  =  (-0.3366)  *  0.5  =  -0.1683
+      w2_new    =  w2_old  -  η  *  (∂L / ∂w2)
+      w2_new    =  0.60    -  0.1  *  (-0.1683)
+      w2_new    =  0.60    +  0.01683
+      w2_new    =  0.6168
+
+    ─────────────────────────────────────────────────────────────
+    w3 update:
+      ∂L / ∂w3  =  ∂L/∂y  *  x3  =  (-0.3366)  *  (-0.8)  =  +0.2693
+      w3_new    =  w3_old  -  η  *  (∂L / ∂w3)
+      w3_new    =  0.50    -  0.1  *  (+0.2693)
+      w3_new    =  0.50    -  0.02693
+      w3_new    =  0.4731
+
+    Where each number came from:
+      -0.3366   →   ∂L/∂y from Step 4
+       x1=1.0   →   original input value
+       x2=0.5   →   original input value
+       x3=-0.8  →   original input value (negative, so gradient flips sign)
+
+---
+
+## All Weights Before and After
+
+    Weight    Old value    Gradient      Change             New value
+    ───────────────────────────────────────────────────────────────────
+    w1        0.4000       -0.3366       +0.0337 (up)       0.4337
+    w2        0.6000       -0.1683       +0.0168 (up)       0.6168
+    w3        0.5000       +0.2693       -0.0269 (down)     0.4731
+    w4        0.8000       -0.1683       +0.0168 (up)       0.8168
+
+    Why did w1, w2, w4 go UP?
+      Their gradients were negative.
+      w_new = w_old - η * (negative number)  =  w_old + something  →  goes UP
+
+    Why did w3 go DOWN?
+      x3 = -0.8 (negative input).
+      ∂L/∂w3 = ∂L/∂y * x3 = (-0.3366) * (-0.8) = +0.2693 (positive gradient)
+      w_new = w_old - η * (positive number)  →  goes DOWN
+
+---
+
+## Why Did Loss Drive All Weights to Change?
+
+    Loss = 0.5456 told us: prediction 0.5793 is too low, true answer is 1.
+
+    So the network needs to predict HIGHER next time.
+    That means:
+      Increase weights that contributed positively  (w1, w2, w4 go up)
+      Decrease weights that pulled the output down  (w3 goes down, because x3 was negative)
+
+    After one update, if we run forward pass again with new weights:
+      The prediction will be slightly closer to 1.
+      Loss will be slightly lower.
+      Repeat thousands of times → model learns.
+
+---
+
+## Gradient Flow: Where Each Number Came From
+
+    Loss L = 0.5456
+        |
+        | differentiate Loss
+        v
+    ∂L/∂y_hat  =  -1.7262       (Step 1)
+        |
+        | multiply by Sigmoid derivative
+        v
+    ∂L/∂y_out  =  -1.7262 * 0.2437  =  -0.4207
+        |
+        |─── multiply by z = 0.40  ────────────>  ∂L/∂w4  =  -0.1683  →  w4: 0.800 → 0.817
+        |
+        | multiply by w4 = 0.80
+        v
+    ∂L/∂z      =  -0.4207 * 0.80   =  -0.3366
+        |
+        | multiply by ReLU derivative = 1
+        v
+    ∂L/∂y      =  -0.3366 * 1      =  -0.3366
+        |
+        |─── multiply by x1 = 1.0  ────────────>  ∂L/∂w1  =  -0.3366  →  w1: 0.400 → 0.434
+        |─── multiply by x2 = 0.5  ────────────>  ∂L/∂w2  =  -0.1683  →  w2: 0.600 → 0.617
+        └─── multiply by x3 = -0.8 ────────────>  ∂L/∂w3  =  +0.2693  →  w3: 0.500 → 0.473
