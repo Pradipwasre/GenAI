@@ -538,3 +538,257 @@ Always paired with Softmax activation in the output layer.
 | Huber Loss | A hybrid regression loss that behaves like MSE for small errors and like MAE for large errors, controlled by a threshold hyperparameter delta. It gives the best of both worlds — fast convergence on small errors and robustness to outliers on large errors. |
 | Binary Cross-Entropy | The standard loss function for binary classification tasks where the output is either 0 or 1. It heavily penalizes confident wrong predictions using a logarithmic scale. It is always paired with a Sigmoid activation in the output layer. |
 | Categorical Cross-Entropy | The standard loss function for multi-class classification tasks with 3 or more classes. It measures the difference between the predicted probability distribution and the true one-hot encoded label. It is always paired with a Softmax activation in the output layer. |
+
+
+
+
+
+# Activation Functions — Forward Pass to Final Prediction
+
+> Same inputs. Different activation functions. See exactly what changes at each step.
+
+---
+
+## Table of Contents
+
+- [Given Values](#given-values)
+- [Step 1 — Weighted Sum](#step-1--weighted-sum-same-for-all-activations)
+- [Step 2 — Apply Each Activation](#step-2--apply-each-activation-at-hidden-neuron)
+- [Step 3 — Output Layer](#step-3--output-layer-weighted-sum)
+- [Step 4 — Sigmoid at Output](#step-4--sigmoid-activation-at-output-layer)
+- [Step 5 — Loss](#step-5--loss-calculation)
+- [Full Summary Table](#full-end-to-end-summary-table)
+- [Key Takeaways](#key-takeaways)
+- [When to Use Which](#when-to-use-which-activation)
+- [Softmax — Multi-Class Output](#softmax--output-layer-for-multi-class)
+
+---
+
+## Given Values
+
+    Inputs  :  x1 = 1.0,   x2 = 0.5,   x3 = -0.8
+    Weights :  w1 = 0.4,   w2 = 0.6,   w3 = 0.5,   b1 = 0.1
+    Output  :  w4 = 0.8,   b2 = 0.0
+    True label y = 1  (binary classification)
+
+---
+
+## Step 1 — Weighted Sum (same for all activations)
+
+    y  =  (w1 * x1)  +  (w2 * x2)  +  (w3 * x3)  +  b1
+    y  =  (0.4 * 1.0)  +  (0.6 * 0.5)  +  (0.5 * -0.8)  +  0.1
+    y  =   0.40  +  0.30  -  0.40  +  0.10
+    y  =   0.40
+
+> The pre-activation value y = 0.40 is identical for all activations.
+> What changes is how we transform y into z in the next step.
+
+---
+
+## Step 2 — Apply Each Activation at Hidden Neuron
+
+### 1. ReLU — default choice
+
+    Formula    :  z = max(0, y)
+    z          =  max(0, 0.40)  =  0.40
+    Derivative :  dz/dy = 1   (because y = 0.40 > 0)
+
+    Output range : 0 to infinity
+    y > 0        : value passes through unchanged
+    y <= 0       : output = 0  and  derivative = 0  (dead neuron)
+
+---
+
+### 2. Leaky ReLU — fixes dead neuron problem
+
+    Formula    :  z = y          if y > 0
+                  z = 0.01 * y   if y <= 0
+
+    Since y = 0.40 > 0:
+    z          =  0.40
+    Derivative :  dz/dy = 1
+
+    Output range : -infinity to +infinity
+    y > 0        : same as ReLU
+    y <= 0       : small negative signal kept alive
+
+    Compare when y = -0.55:
+      ReLU        →  z = 0           gradient = 0      (neuron is dead)
+      Leaky ReLU  →  z = -0.0055     gradient = 0.01   (neuron stays alive)
+
+---
+
+### 3. Tanh — zero-centered output
+
+    Formula    :  z = (e^y - e^(-y)) / (e^y + e^(-y))
+
+    e^0.40  = 1.4918
+    e^-0.40 = 0.6703
+
+    z  =  (1.4918 - 0.6703) / (1.4918 + 0.6703)
+    z  =  0.8215 / 2.1621
+    z  =  0.3799
+
+    Derivative :  dz/dy = 1 - z^2 = 1 - (0.3799)^2 = 1 - 0.1443 = 0.8557
+
+    Output range   : -1 to +1
+    Zero-centered  : yes  (better gradient flow than Sigmoid)
+    Vanishing grad : still possible in very deep networks
+
+---
+
+### 4. ELU — Exponential Linear Unit  (alpha = 1.0)
+
+    Formula    :  z = y                  if y > 0
+                  z = alpha * (e^y - 1)  if y <= 0
+
+    Since y = 0.40 > 0:
+    z          =  0.40
+    Derivative :  dz/dy = 1
+
+    Output range : -alpha to +infinity
+    y > 0        : same as ReLU
+    y <= 0       : smooth exponential curve instead of flat zero
+
+    Compare when y = -0.55:
+      Leaky ReLU  →  z = -0.0055     derivative = 0.01
+      ELU         →  z = 1.0 * (e^-0.55 - 1)
+                   →  z = 1.0 * (0.5769 - 1)
+                   →  z = -0.4231    derivative = 0.5769
+      ELU learns much faster on negative inputs because its derivative is larger.
+
+---
+
+### Activation Comparison Table  (y = 0.40)
+
+| Activation  | Formula                          | z output | dz/dy | Output range      |
+|-------------|----------------------------------|----------|-------|-------------------|
+| ReLU        | max(0, y)                        | 0.40     | 1     | 0 to infinity     |
+| Leaky ReLU  | y if y>0,  else 0.01*y           | 0.40     | 1     | -inf to +inf      |
+| Tanh        | (e^y - e^-y) / (e^y + e^-y)     | 0.3799   | 0.8557| -1 to +1          |
+| ELU (a=1)   | y if y>0,  else a*(e^y - 1)      | 0.40     | 1     | -1 to +inf        |
+
+---
+
+## Step 3 — Output Layer Weighted Sum
+
+    Formula :  y_out  =  w4 * z  +  b2
+               w4 = 0.8,   b2 = 0.0
+
+| Activation | z      | y_out = 0.8 * z + 0.0 |
+|------------|--------|------------------------|
+| ReLU       | 0.4000 | 0.8 * 0.4000 = 0.3200  |
+| Leaky ReLU | 0.4000 | 0.8 * 0.4000 = 0.3200  |
+| Tanh       | 0.3799 | 0.8 * 0.3799 = 0.3039  |
+| ELU        | 0.4000 | 0.8 * 0.4000 = 0.3200  |
+
+---
+
+## Step 4 — Sigmoid Activation at Output Layer
+
+    Formula :  y_hat  =  Sigmoid(y_out)  =  1 / (1 + e^(-y_out))
+
+    ReLU path:
+      y_hat  =  1 / (1 + e^(-0.3200))  =  1 / (1 + 0.7261)  =  1 / 1.7261  =  0.5793
+
+    Leaky ReLU path:
+      y_hat  =  1 / (1 + e^(-0.3200))  =  0.5793  (same as ReLU, z was identical)
+
+    Tanh path:
+      y_hat  =  1 / (1 + e^(-0.3039))  =  1 / (1 + 0.7380)  =  1 / 1.7380  =  0.5754
+
+    ELU path:
+      y_hat  =  1 / (1 + e^(-0.3200))  =  0.5793  (same as ReLU, z was identical)
+
+---
+
+## Step 5 — Loss Calculation
+
+    Formula :  L  =  -[ y * log(y_hat)  +  (1-y) * log(1 - y_hat) ]
+
+    Since true label y = 1:
+    L  =  -[ 1 * log(y_hat) ]  =  -log(y_hat)
+
+| Activation | y_hat  | L = -log(y_hat) |
+|------------|--------|-----------------|
+| ReLU       | 0.5793 | 0.5456          |
+| Leaky ReLU | 0.5793 | 0.5456          |
+| Tanh       | 0.5754 | 0.5524          |
+| ELU        | 0.5793 | 0.5456          |
+
+---
+
+## Full End-to-End Summary Table
+
+| Step                    | ReLU   | Leaky ReLU | Tanh   | ELU    |
+|-------------------------|--------|------------|--------|--------|
+| y  (weighted sum)       | 0.4000 | 0.4000     | 0.4000 | 0.4000 |
+| z  (after activation)   | 0.4000 | 0.4000     | 0.3799 | 0.4000 |
+| y_out = w4*z + b2       | 0.3200 | 0.3200     | 0.3039 | 0.3200 |
+| y_hat = Sigmoid(y_out)  | 0.5793 | 0.5793     | 0.5754 | 0.5793 |
+| Loss L = -log(y_hat)    | 0.5456 | 0.5456     | 0.5524 | 0.5456 |
+
+---
+
+## Key Takeaways
+
+    1. The weighted sum y = 0.40 is identical for all activations.
+       The activation function only changes what happens AFTER that.
+
+    2. ReLU, Leaky ReLU, and ELU all output z = 0.40 here because y is positive.
+       Their real difference only shows when y is NEGATIVE.
+
+    3. Tanh compresses z to 0.3799 instead of 0.40.
+       Slightly lower final prediction (0.5754 vs 0.5793).
+       But Tanh is zero-centered which makes weight updates more stable
+       in shallow networks.
+
+    4. The real difference between activations appears on NEGATIVE inputs.
+       Run the same example with y = -0.55 to see:
+
+         ReLU        →  z = 0          gradient = 0      (learns nothing)
+         Leaky ReLU  →  z = -0.0055    gradient = 0.01   (barely learns)
+         ELU         →  z = -0.4231    gradient = 0.5769 (learns well)
+         Tanh        →  z = -0.5028    gradient = 0.7172 (learns well)
+
+---
+
+## When to Use Which Activation
+
+    Layer type              Activation      Reason
+    ─────────────────────────────────────────────────────────────────────────
+    Hidden layer (default)  ReLU            Fast, simple, works in most cases
+    Hidden layer (negative) Leaky ReLU      No dead neurons, gradient stays alive
+    Hidden layer (research) ELU or PReLU    Better negative gradients than Leaky
+    Hidden layer (shallow)  Tanh            Zero-centered, stable updates
+    Output (binary class)   Sigmoid         Outputs probability between 0 and 1
+    Output (multi-class)    Softmax         All class probabilities sum to 1
+    Output (regression)     None / Linear   Predicts a raw continuous number
+
+---
+
+## Softmax — Output Layer for Multi-Class
+
+> Softmax is NOT for hidden layers.
+> Use it ONLY at the output layer when predicting 3 or more classes.
+
+    Formula :  softmax(zi)  =  e^zi / (e^z1 + e^z2 + ... + e^zK)
+
+    Example — 3 class output scores:
+      z1 = 0.40,   z2 = 1.20,   z3 = -0.30
+
+      e^0.40  = 1.4918
+      e^1.20  = 3.3201
+      e^-0.30 = 0.7408
+      Sum     = 5.5527
+
+      P(class 1)  =  1.4918 / 5.5527  =  0.2687
+      P(class 2)  =  3.3201 / 5.5527  =  0.5979   <- highest = predicted class
+      P(class 3)  =  0.7408 / 5.5527  =  0.1334
+      Total       =  0.2687 + 0.5979 + 0.1334  =  1.0000  <- always sums to 1
+
+    Loss — Categorical Cross-Entropy  (true label = class 2):
+      L  =  -sum( yj * log(y_hat_j) )
+      L  =  -[ 0*log(0.2687)  +  1*log(0.5979)  +  0*log(0.1334) ]
+      L  =  -log(0.5979)
+      L  =  0.5148
