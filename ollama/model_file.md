@@ -66,7 +66,7 @@ Here's what the complete Ollama package looks like:
 ┌─────────────────────────────────────────────────────────┐
 │                   OLLAMA MODEL PACKAGE                  │
 ├──────────────────┬──────────────────┬───────────────────┤
-│      Brain GGUF  │   Model File     │     Config File   │
+│   Brain GGUF     │   Model File     │   Config File     │
 │                  │                  │                   │
 │  Actual model    │  Human-readable  │  Machine-readable │
 │  weights &       │  recipe +        │  settings &       │
@@ -119,7 +119,7 @@ Build Process:
                         ↓
               Pushed to Ollama Registry
                         ↓
-         Available locally on your machine! 🎉
+         Available locally on your machine! 
 ─────────────────────────────────────────────────────────
 ```
 
@@ -277,5 +277,3 @@ ollama push yourusername/structuredllm.jsonllm:latest
 4. Use `ollama ls` to list all your models and identify the GGUF sizes.
 
 ---
-
-*Notes prepared for classroom use | Topic: Ollama Model Files | Format: Story-driven learning*
