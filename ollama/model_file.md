@@ -16,6 +16,7 @@ A model is just a **neural network** — a massive set of numbers called **weigh
 
 Think of it like this:
 
+
 ```
 Training Phase (done by researchers):
 Billions of text examples → Neural Network Learning → Weights + Biases saved to disk
