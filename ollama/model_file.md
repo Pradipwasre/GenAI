@@ -1,18 +1,18 @@
-#  Ollama & Model Files — Classroom Notes
+#  Ollama & Model Files 
 ### *"From Raw Brain to a Talking Machine"*
 
 ---
 
 > **Story Setup **
-> Imagine you just hired a brilliant chef (the LLM). But the chef speaks only an ancient language (raw model weights), arrives with no uniform, no kitchen setup, and no recipe book. **Ollama is your restaurant manager** — it sets up the kitchen, translates the chef's knowledge into something usable, writes the recipe book, and gets your chef ready to serve customers (users).
+> Imagine you just hired a brilliant chef (the LLM). But the chef speaks only an ancient language (raw model weights), arrives with no uniform, no kitchen setup, and no recipe book. **Ollama is your restaurant manager**,  it sets up the kitchen, translates the chef's knowledge into something usable, writes the recipe book, and gets your chef ready to serve customers (users).
 >
 > That's exactly what Ollama does with AI models.
 
 ---
 
-##  Chapter 1 — The Brain (What is a Model?)
+##  Chapter 1 : The Brain (What is a Model?)
 
-A model is just a **neural network** — a massive set of numbers called **weights and biases** that the model learned during training.
+A model is just a **neural network**, a massive set of numbers called **weights and biases** that the model learned during training.
 
 Think of it like this:
 
@@ -22,7 +22,7 @@ Training Phase (done by researchers):
 Billions of text examples → Neural Network Learning → Weights + Biases saved to disk
 ```
 
-- Most trained models live on **Hugging Face**  — the world's largest AI model repository.
+- Most trained models live on **Hugging Face** , the world's largest AI model repository.
 - But here's the problem: **raw models cannot run locally out of the box**.
 - They're huge, inefficient, and need special conversion to work on normal hardware.
 
@@ -30,11 +30,11 @@ Billions of text examples → Neural Network Learning → Weights + Biases saved
 
 ---
 
-## Chapter 2 — Enter Ollama (The Restaurant Manager)
+## Chapter 2 : Enter Ollama (The Restaurant Manager)
 
 Ollama solves this problem in two steps:
 
-### Step 1: Conversion — HuggingFace → GGUF
+### Step 1: Conversion : HuggingFace → GGUF
 
 ```
 Hugging Face Model (.safetensors / .bin)
@@ -48,17 +48,17 @@ Hugging Face Model (.safetensors / .bin)
 **GGUF** = *GPT-Generated Unified Format*
 - Compressed and quantized version of the model weights
 - Designed to run efficiently on consumer hardware (your laptop!)
-- Like converting a 4K movie into a well-compressed HD version — same content, lighter to carry
+- Like converting a 4K movie into a well-compressed HD version, same content, lighter to carry
 
-### Step 2: Write the Recipe — The Model File
+### Step 2: Write the Recipe : The Model File
 
-Alongside the GGUF, Ollama creates a **Model File** — a human-readable recipe that tells Ollama *how* to run this LLM on your system.
+Alongside the GGUF, Ollama creates a **Model File**, a human-readable recipe that tells Ollama *how* to run this LLM on your system.
 
-> **Analogy:** The GGUF is the pizza dough (the real substance). The Model File is the recipe card — it says what toppings to use, how long to bake, what temperature, and how to serve it.
+> **Analogy:** The GGUF is the pizza dough (the real substance). The Model File is the recipe card, it says what toppings to use, how long to bake, what temperature, and how to serve it.
 
 ---
 
-## Chapter 3 — The Model File Structure (The Recipe Book)
+## Chapter 3 : The Model File Structure (The Recipe Book)
 
 Here's what the complete Ollama package looks like:
 
@@ -106,7 +106,7 @@ PARAMETER top_p 0.9
 
 ---
 
-## Chapter 4 — The Final Build & Registry
+## Chapter 4 : The Final Build & Registry
 
 Once Ollama has all the pieces, it bundles them and pushes into its **model registry**.
 
@@ -141,15 +141,15 @@ ollama run llama3.2
 
 ---
 
-##  Chapter 5 — Customization (Your Own Recipe!)
+##  Chapter 5 : Customization (Your Own Recipe!)
 
 Here's where it gets exciting. You don't have to use the default model file.
 
->  **Story Moment:** You're a restaurant owner. You hired the chef (LLM), but you want the chef to *only* speak to customers in a structured, formal manner and always reply in JSON format. So you rewrite the recipe card — same chef, new instructions.
+>  **Story Moment:** You're a restaurant owner. You hired the chef (LLM), but you want the chef to *only* speak to customers in a structured, formal manner and always reply in JSON format. So you rewrite the recipe card, same chef, new instructions.
 
 ### Example: Creating a JSON-Output LLM
 
-**Step 1 — Write your custom Model File:**
+**Step 1 : Write your custom Model File:**
 
 ```modelfile
 FROM llama3.2
@@ -164,19 +164,19 @@ Example output: {"answer": "...", "confidence": 0.95}
 PARAMETER temperature 0.2
 ```
 
-**Step 2 — Build your custom model:**
+**Step 2 : Build your custom model:**
 
 ```bash
 ollama create jsonllm -f Modelfile
 ```
 
-**Step 3 — Verify it's created:**
+**Step 3 : Verify it's created:**
 
 ```bash
 ollama ls
 ```
 
-**Step 4 — Run your new model:**
+**Step 4 : Run your new model:**
 
 ```bash
 ollama run jsonllm:latest
@@ -184,7 +184,7 @@ ollama run jsonllm:latest
 
 ---
 
-##  Chapter 6 — Publishing Your Model
+##  Chapter 6 : Publishing Your Model
 
 Once you've customised your model, you can share it with the world!
 
@@ -203,7 +203,7 @@ ollama push yourusername/structuredllm.jsonllm:latest
 
 ---
 
-##  The Full Journey — End-to-End Diagram
+##  The Full Journey : End-to-End Diagram
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -264,14 +264,14 @@ ollama push yourusername/structuredllm.jsonllm:latest
 ## Quick Summary (3 Lines)
 
 > 1. **Ollama converts** raw HuggingFace models into GGUF format so they can run locally.
-> 2. **The Model File** is the human-readable recipe that tells Ollama *how* to behave — personality, parameters, format.
+> 2. **The Model File** is the human-readable recipe that tells Ollama *how* to behave : personality, parameters, format.
 > 3. **You can customise** the Model File to change the model's behaviour, then create and share your own version.
 
 ---
 
 ##  Practice Exercises
 
-1. Run `ollama pull llama3.2` and then `ollama show llama3.2 --modelfile` — read through every line.
+1. Run `ollama pull llama3.2` and then `ollama show llama3.2 --modelfile`, read through every line.
 2. Create a custom Model File that makes the LLM always respond like a pirate .
 3. Create a JSON-only Model File and test it with `ollama run`.
 4. Use `ollama ls` to list all your models and identify the GGUF sizes.
