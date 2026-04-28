@@ -331,17 +331,16 @@ while True:
 > The whole `conversation` list goes to the model each time: that's how it remembers.
 ---
 
+
+So in your case, the full Markdown cell would look like this:
+
 ```python
-# -------------------------------
-# Basic Usage: ChatOpenAI with API Key
-# -------------------------------
+from langchain_groq import ChatGroq
 
-from langchain_openai import ChatOpenAI
-
-# Initialize OpenAI model with API key directly
-llm = ChatOpenAI(
-    model="gpt-4",
-    api_key="YOUR_OPENAI_API_KEY_HERE"   # <-- paste your actual key
+# Initialize Groq model with API key directly
+llm = ChatGroq(
+    model="llama-3.1-8b-instant",
+    api_key="YOUR_GROQ_API_KEY_HERE"   # <-- paste your actual key
 )
 
 # Run a simple query
@@ -356,23 +355,21 @@ print(reply.content)
 import gradio as gr
 
 # Function for Gradio
-def ask_openai(question):
+def ask_groq(question):
     reply = llm.invoke(question)
     return reply.content
 
 # Build Gradio interface
 demo = gr.Interface(
-    fn=ask_openai,
-    inputs=gr.Textbox(label="Ask GPT-4", placeholder="Type your question..."),
+    fn=ask_groq,
+    inputs=gr.Textbox(label="Ask Groq", placeholder="Type your question..."),
     outputs=gr.Textbox(label="Answer"),
-    title="LangChain + OpenAI Demo"
+    title="LangChain + Groq Demo"
 )
 
 # Launch the app
 if __name__ == "__main__":
     demo.launch()
-
-
 
 
 ---
