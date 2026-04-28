@@ -369,7 +369,54 @@ if __name__ == "__main__":
     demo.launch()
 
 ```
+----
 
+```python
+
+# -------------------------------
+# PromptTemplate + Groq in Gradio
+# -------------------------------
+
+import gradio as gr
+from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
+
+# Initialize Groq model with API key directly
+chat_model = ChatGroq(
+    model="llama-3.1-8b-instant",
+    api_key="YOUR_GROQ_API_KEY_HERE"   # <-- paste your actual key
+)
+
+# Define the prompt template
+my_template = PromptTemplate(
+    input_variables=["subject", "audience"],
+    template="Teach me about {subject} as if I am a {audience}."
+)
+
+# Build the chain: prompt → model
+pipeline = my_template | chat_model
+
+# Function for Gradio
+def teach(subject, audience):
+    answer = pipeline.invoke({"subject": subject, "audience": audience})
+    return answer.content
+
+# Gradio interface
+demo = gr.Interface(
+    fn=teach,
+    inputs=[
+        gr.Textbox(label="Subject", placeholder="e.g. blockchain"),
+        gr.Textbox(label="Audience", placeholder="e.g. school student")
+    ],
+    outputs=gr.Textbox(label="Groq Reply"),
+    title="LangChain PromptTemplate + Groq Demo"
+)
+
+# Launch the app
+if __name__ == "__main__":
+    demo.launch()
+
+'''
 ----
 
 
