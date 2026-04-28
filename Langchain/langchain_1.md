@@ -419,8 +419,57 @@ if __name__ == "__main__":
     demo.launch()
 
 ```
+----
 
----
+```python
+
+# -------------------------------
+# Groq Math Tutor in Gradio
+# -------------------------------
+
+import gradio as gr
+from langchain_groq import ChatGroq
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+# Initialize Groq model with API key directly
+bot = ChatGroq(
+    model="llama-3.1-8b-instant",
+    api_key="YOUR_GROQ_API_KEY_HERE"   # <-- paste your actual key
+)
+
+# Conversation history
+conversation = [
+    SystemMessage(content="You are a friendly math tutor.")
+]
+
+# Function for Gradio chat
+def chat_with_tutor(user_text, history):
+    # Add the student's message
+    conversation.append(HumanMessage(content=user_text))
+
+    # Get the bot's reply
+    bot_reply = bot.invoke(conversation)
+
+    # Add the bot's reply back into the conversation history
+    conversation.append(AIMessage(content=bot_reply.content))
+
+    return bot_reply.content
+
+# Gradio ChatInterface
+demo = gr.ChatInterface(
+    fn=chat_with_tutor,
+    title="Groq Math Tutor",
+    description="Ask math questions and get friendly explanations."
+)
+
+# Launch the app
+if __name__ == "__main__":
+    demo.launch()
+
+```
+
+----
+
 # Quick Revision Table
 
 | Topic | What it does | Key class / tool |
