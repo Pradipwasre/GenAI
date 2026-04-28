@@ -332,6 +332,7 @@ while True:
 ---
 
 ```python
+
 from langchain_groq import ChatGroq
 
 # Initialize Groq model with API key directly
@@ -369,6 +370,7 @@ if __name__ == "__main__":
     demo.launch()
 
 ```
+
 ----
 
 ```python
@@ -416,10 +418,9 @@ demo = gr.Interface(
 if __name__ == "__main__":
     demo.launch()
 
-'''
-----
+```
 
-
+---
 # Quick Revision Table
 
 | Topic | What it does | Key class / tool |
