@@ -14,7 +14,6 @@ Each AI company (OpenAI, Google, Anthropic) has its own way of communicating. La
 [ Google   ]  ──┘       (.invoke)
 ```
 
-> **Board tip:** Draw three boxes on the left pointing into one box (LangChain), then one arrow to "Your App".
 
 ---
 
