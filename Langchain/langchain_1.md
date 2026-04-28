@@ -371,6 +371,7 @@ if __name__ == "__main__":
 
 ----
 
+
 # Quick Revision Table
 
 | Topic | What it does | Key class / tool |
@@ -391,7 +392,7 @@ if __name__ == "__main__":
 ---
 
 > **Golden rules for students:**
-> - Always store API keys in `.env`, never in your code
-> - Always use Chat Models, not plain LLMs
-> - Use `PromptTemplate` over f-strings in real projects
+> - Always store API keys in `.env`, never in your code  
+> - Always use Chat Models, not plain LLMs  
+> - Use `PromptTemplate` over f-strings in real projects  
 > - Chat history = the memory of your chatbot
