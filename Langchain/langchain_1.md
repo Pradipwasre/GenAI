@@ -4,11 +4,11 @@
 
 ---
 
-# PART 1 — Models in LangChain
+# PART 1 : Models in LangChain
 
 ## 1.1 What Problem Does LangChain Solve?
 
-Each AI company (OpenAI, Google, Anthropic) has its own way of communicating. LangChain acts like a **universal remote** — one consistent way to talk to all of them.
+Each AI company (OpenAI, Google, Anthropic) has its own way of communicating. LangChain acts like a **universal remote** : one consistent way to talk to all of them.
 
 ```
 [ OpenAI  ]  ──┐
@@ -39,7 +39,7 @@ Embedding Model:  "What is AI?"  →  [ Model ]  →  [0.23, 0.91, 0.44, ...]
 
 ---
 
-## 1.3 Inside Language Models — LLM vs Chat Model
+## 1.3 Inside Language Models : LLM vs Chat Model
 
 Think of it like messaging:
 - **LLM** = sending a one-time letter (no memory)
@@ -57,7 +57,7 @@ Think of it like messaging:
 
 ---
 
-## 1.4 Temperature — The Creativity Dial
+## 1.4 Temperature : The Creativity Dial
 
 ```
 Low (near 0) ────────────────────────── High (1.5+)
@@ -86,17 +86,17 @@ Polished output                   Decent, improving fast
 Pay per API call                  Completely free
 ```
 
-> Open source models live on **Hugging Face** — the biggest library of free AI models.
+> Open source models live on **Hugging Face** : the biggest library of free AI models.
 
 **Two ways to use open source models:**
-1. **Hugging Face API** — runs on their server, free up to a limit
-2. **Download locally** — runs on your machine, totally free and private (needs strong GPU)
+1. **Hugging Face API** : runs on their server, free up to a limit
+2. **Download locally** : runs on your machine, totally free and private (needs strong GPU)
 
 > **Best practice:** Always store your API key in a `.env` file. Never paste it directly in code.
 
 ---
 
-# PART 2 — Prompts in LangChain
+# PART 2 : Prompts in LangChain
 
 ## 2.1 What is a Prompt?
 
@@ -106,7 +106,7 @@ A prompt is simply the message you send to the AI.
 
 This sensitivity is why "**Prompt Engineering**" is now a real job role.
 
-Prompts can be: text, images, audio, or video — but we focus on **text prompts**.
+Prompts can be: text, images, audio, or video, but we focus on **text prompts**.
 
 ---
 
@@ -116,7 +116,7 @@ Prompts can be: text, images, audio, or video — but we focus on **text prompts
 ```
 "Write a five-line poem on cricket."
 ```
-- Hardcoded — user must retype for every new query
+- Hardcoded : user must retype for every new query
 - Typos cause bad or unexpected output
 - No control over formatting or consistency
 
@@ -125,7 +125,7 @@ Prompts can be: text, images, audio, or video — but we focus on **text prompts
 "Summarize the paper {paper_name} in a {style} style. Keep it {length}."
 ```
 - Uses placeholders `{}` filled at runtime
-- User picks from dropdowns — no typos possible
+- User picks from dropdowns, no typos possible
 - Consistent, controlled output every time
 
 ```
@@ -153,7 +153,7 @@ Python f-strings work, but `PromptTemplate` gives three extra benefits:
 
 ---
 
-## 2.4 Chains — Prompt + Model in One Step
+## 2.4 Chains: Prompt + Model in One Step
 
 Instead of two separate steps (format prompt, then call model), a **Chain** does both in one go.
 
@@ -186,7 +186,7 @@ answer = chain.invoke({"topic": "gravity"})
 
 ---
 
-## 2.6 Chat History — How the Bot Remembers
+## 2.6 Chat History: How the Bot Remembers
 
 Without history → bot forgets everything after each reply.  
 With history → every message is stored and sent together each time.
@@ -219,7 +219,7 @@ Bot now has full context to answer correctly
 
 ---
 
-# PART 3 — Python Code Examples
+# PART 3 : Python Code Examples
 
 ## Code 1: Talking to a Chat Model
 
@@ -279,7 +279,7 @@ answer = pipeline.invoke({"concept": "recursion"})
 print(answer.content)
 ```
 
-> The `|` symbol connects steps — like a factory conveyor belt.
+> The `|` symbol connects steps : like a factory conveyor belt.
 
 ---
 
@@ -306,7 +306,7 @@ while True:
     conversation.append(AIMessage(content=bot_reply.content))
 ```
 
-> The whole `conversation` list goes to the model each time — that's how it remembers.
+> The whole `conversation` list goes to the model each time: that's how it remembers.
 
 ---
 
@@ -336,7 +336,7 @@ final_prompt = chat_prompt.invoke({
 print(final_prompt)
 ```
 
-> `MessagesPlaceholder` is a reserved slot — old messages slide in there automatically.
+> `MessagesPlaceholder` is a reserved slot: old messages slide in there automatically.
 
 ---
 
@@ -391,7 +391,7 @@ print("Most relevant:", top_result)
 ---
 
 > **Golden rules for students:**
-> - Always store API keys in `.env` — never in your code
+> - Always store API keys in `.env`, never in your code
 > - Always use Chat Models, not plain LLMs
 > - Use `PromptTemplate` over f-strings in real projects
 > - Chat history = the memory of your chatbot
