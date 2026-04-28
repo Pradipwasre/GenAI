@@ -1,7 +1,5 @@
 # LangChain Classroom Notes
-## Session 1 + 2: Models & Prompts
-> Beginner-friendly notes for teaching in class with diagrams and code examples
-
+## Models & Prompts
 ---
 
 # PART 1 : Models in LangChain
