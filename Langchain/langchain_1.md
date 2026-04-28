@@ -219,17 +219,18 @@ Bot now has full context to answer correctly
 ## Code 1: Talking to a Chat Model
 
 ```python
-from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
-load_dotenv()  # reads API key from .env file
+# Initialize OpenAI model with API key directly
+llm = ChatOpenAI(
+    model="gpt-4",
+    api_key="YOUR_OPENAI_API_KEY_HERE"   # <-- paste your actual key
+)
 
-llm = ChatOpenAI(model="gpt-4")
+# Run a simple query
 reply = llm.invoke("Explain gravity in simple words.")
 print(reply.content)
-```
 
-> `load_dotenv()` reads your secret API key from `.env` so you never paste it in code.
 
 ---
 
@@ -237,17 +238,21 @@ print(reply.content)
 
 ```python
 from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
 
+# Initialize Groq model with API key directly
+chat_model = ChatGroq(
+    model="llama-3.1-8b-instant",
+    api_key="YOUR_GROQ_API_KEY_HERE"   # <-- paste your actual key
+)
+
+# Define the prompt template
 my_template = PromptTemplate(
     input_variables=["subject", "audience"],
     template="Teach me about {subject} as if I am a {audience}."
 )
 
-ready_prompt = my_template.invoke({
-    "subject": "blockchain",
-    "audience": "school student"
-})
-print(ready_prompt)
+print(my_template)
 # "Teach me about blockchain as if I am a school student."
 ```
 
@@ -258,20 +263,32 @@ print(ready_prompt)
 ## Code 3: Chaining Prompt and Model Together
 
 ```python
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
 
-chat_model = ChatOpenAI(model="gpt-4")
-
-prompt = PromptTemplate(
-    input_variables=["concept"],
-    template="Give me a one-line definition of {concept}."
+# Initialize Groq model with API key directly
+chat_model = ChatGroq(
+    model="llama-3.1-8b-instant",
+    api_key="YOUR_GROQ_API_KEY_HERE"   # <-- paste your actual key
 )
 
-pipeline = prompt | chat_model  # prompt feeds directly into model
+# Define the prompt template
+my_template = PromptTemplate(
+    input_variables=["subject", "audience"],
+    template="Teach me about {subject} as if I am a {audience}."
+)
 
-answer = pipeline.invoke({"concept": "recursion"})
+# Build the chain: prompt → model
+pipeline = my_template | chat_model
+
+# Run the chain
+answer = pipeline.invoke({
+    "subject": "blockchain",
+    "audience": "school student"
+})
+
 print(answer.content)
+
 ```
 
 > The `|` symbol connects steps : like a factory conveyor belt.
@@ -281,11 +298,16 @@ print(answer.content)
 ## Code 4: Chatbot That Remembers the Conversation
 
 ```python
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
-bot = ChatOpenAI(model="gpt-4")
+# Initialize Groq model with API key directly
+bot = ChatGroq(
+    model="llama-3.1-8b-instant",
+    api_key="YOUR_GROQ_API_KEY_HERE"   # <-- paste your actual key
+)
 
+# Start the conversation with a system role
 conversation = [
     SystemMessage(content="You are a friendly math tutor.")
 ]
@@ -295,74 +317,19 @@ while True:
     if user_text.lower() == "exit":
         break
 
+    # Add the student's message
     conversation.append(HumanMessage(content=user_text))
+
+    # Get the bot's reply
     bot_reply = bot.invoke(conversation)
     print("Tutor:", bot_reply.content)
+
+    # Add the bot's reply back into the conversation history
     conversation.append(AIMessage(content=bot_reply.content))
 ```
 
 > The whole `conversation` list goes to the model each time: that's how it remembers.
-
 ---
-
-## Code 5: Loading Old Chat History into a New Session
-
-```python
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages import HumanMessage, AIMessage
-
-chat_prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a {role}."),
-    MessagesPlaceholder(variable_name="past_chat"),  # old messages slot
-    ("human", "{new_question}")
-])
-
-# Imagine these were loaded from a database
-previous_session = [
-    HumanMessage(content="Book me a flight to Delhi."),
-    AIMessage(content="Done! Your flight is booked for Monday.")
-]
-
-final_prompt = chat_prompt.invoke({
-    "role": "travel assistant",
-    "past_chat": previous_session,
-    "new_question": "What time is my flight?"
-})
-print(final_prompt)
-```
-
-> `MessagesPlaceholder` is a reserved slot: old messages slide in there automatically.
-
----
-
-## Code 6: Finding the Most Similar Document
-
-```python
-from langchain_openai import OpenAIEmbeddings
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-
-embed = OpenAIEmbeddings(model="text-embedding-3-large")
-
-knowledge_base = [
-    "Einstein developed the theory of relativity.",
-    "Mango is the national fruit of India.",
-    "Newton discovered the law of gravitation."
-]
-
-user_query = "Who worked on gravity?"
-
-knowledge_vectors = embed.embed_documents(knowledge_base)
-query_vector = embed.embed_query(user_query)
-
-similarity_scores = cosine_similarity([query_vector], knowledge_vectors)[0]
-top_result = knowledge_base[np.argmax(similarity_scores)]
-
-print("Most relevant:", top_result)
-# "Newton discovered the law of gravitation."
-```
-
-> Higher cosine similarity score = sentences are closer in meaning.
 
 ---
 
