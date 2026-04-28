@@ -331,9 +331,6 @@ while True:
 > The whole `conversation` list goes to the model each time: that's how it remembers.
 ---
 
-
-So in your case, the full Markdown cell would look like this:
-
 ```python
 from langchain_groq import ChatGroq
 
@@ -372,7 +369,7 @@ if __name__ == "__main__":
     demo.launch()
 
 
----
+----
 
 # Quick Revision Table
 
