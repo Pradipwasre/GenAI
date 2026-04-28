@@ -485,12 +485,6 @@ if __name__ == "__main__":
 | AI message | Model's reply | `AIMessage` |
 | Chat history | List of all past messages | Python list |
 | Old chat injection | Loads previous session into prompt | `MessagesPlaceholder` |
-| Document search | Finds most similar text using vectors | `cosine_similarity` |
 
 ---
 
-> **Golden rules for students:**
-> - Always store API keys in `.env`, never in your code  
-> - Always use Chat Models, not plain LLMs  
-> - Use `PromptTemplate` over f-strings in real projects  
-> - Chat history = the memory of your chatbot
