@@ -1,4 +1,4 @@
-# LangChain Classroom Notes
+# LangChain 
 ## Models & Prompts
 ---
 
@@ -32,8 +32,6 @@ Each AI company (OpenAI, Google, Anthropic) has its own way of communicating. La
 Language Model:   "What is AI?"  →  [ Model ]  →  "AI stands for..."
 Embedding Model:  "What is AI?"  →  [ Model ]  →  [0.23, 0.91, 0.44, ...]
 ```
-
-> **Notepad sketch:** Two boxes side by side. Left: text in → text out. Right: text in → numbers out.
 
 ---
 
