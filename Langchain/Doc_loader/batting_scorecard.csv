@@ -1,0 +1,14 @@
+team,player,role,runs,balls,minutes,fours,sixes,strike_rate,dismissal,bowler,fielder
+Delhi Capitals,Pathum Nissanka,batter,19,15,18,3,1,126.66,caught,Mukesh Choudhary,Brevis
+Delhi Capitals,KL Rahul,wicketkeeper-batter,12,13,25,2,0,92.30,caught,Hosein,Gaikwad
+Delhi Capitals,Nitish Rana,batter,15,13,29,2,0,115.38,caught,Noor Ahmad,Kartik Sharma
+Delhi Capitals,Karun Nair,batter,13,13,12,2,0,100.00,caught,Noor Ahmad,Gurjapneet Singh
+Delhi Capitals,Axar Patel,captain/all-rounder,2,6,14,0,0,33.33,caught,Gurjapneet Singh,Hosein
+Delhi Capitals,Tristan Stubbs,batter,38,31,47,1,2,122.58,caught,Overton,Mukesh Choudhary
+Delhi Capitals,Sameer Rizvi,impact-player/batter,40,24,47,0,4,166.66,not out,,
+Delhi Capitals,Ashutosh Sharma,batter,14,5,6,0,2,280.00,run out,,Gaikwad
+Delhi Capitals,Mitchell Starc,bowler,0,0,1,0,0,0.00,not out,,
+Chennai Super Kings,Sanju Samson,wicketkeeper-batter,87,52,91,7,6,167.30,not out,,
+Chennai Super Kings,Ruturaj Gaikwad,captain/batter,6,13,19,1,0,46.15,caught,Ngidi,Sameer Rizvi
+Chennai Super Kings,Urvil Patel,batter,17,9,11,0,2,188.88,stumped,Axar Patel,KL Rahul
+Chennai Super Kings,Kartik Sharma,batter,41,31,58,4,2,132.25,not out,,
