@@ -32,9 +32,9 @@
 **Name:** `Sports Research Agent` (internally referred to as `SRA`)
 
 **Full Classification:**  
-`Agentic RAG` — specifically a **Tool-Routing Retrieval Agent with Adaptive Query Rephrasing**
+`Agentic RAG` , specifically a **Tool-Routing Retrieval Agent with Adaptive Query Rephrasing**
 
-This is not a standard chatbot. It is an **autonomous agent** — meaning it:
+This is not a standard chatbot. It is an **autonomous agent**  meaning it:
 - Makes its own decisions about which tool to use
 - Evaluates whether it got good data
 - Corrects itself by rephrasing the query if needed
@@ -42,8 +42,8 @@ This is not a standard chatbot. It is an **autonomous agent** — meaning it:
 - Only then generates the final response
 
 It is called "Agentic RAG" because it combines:
-- **RAG** (Retrieval-Augmented Generation) — fetching real-time web data before answering
-- **Agentic behaviour** — the ability to loop, self-evaluate, and rephrase using LangGraph
+- **RAG** (Retrieval-Augmented Generation) : fetching real-time web data before answering
+- **Agentic behaviour** : the ability to loop, self-evaluate, and rephrase using LangGraph
 
 ---
 
