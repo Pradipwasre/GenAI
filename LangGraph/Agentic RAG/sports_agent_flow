@@ -1,0 +1,15 @@
+// Sports Agent Graph Flow
+digraph {
+	agent [label="Agent Node" color=cyan style=filled]
+	tool [label="Tool Node" color=orange style=filled]
+	evaluator [label="Evaluator Node" color=yellow shape=diamond style=filled]
+	rephraser [label="Rephraser Node" color=red style=filled]
+	answer [label="Answer Node" color=green style=filled]
+	END [label=END color=black fontcolor=white shape=oval style=filled]
+	agent -> tool [label="agent → tool"]
+	tool -> evaluator [label="tool → evaluator"]
+	evaluator -> rephraser [label="Bad Data" color=red]
+	evaluator -> answer [label="Good Data" color=green]
+	rephraser -> agent [label=Retry color=black]
+	answer -> END [label=Finish color=black]
+}
