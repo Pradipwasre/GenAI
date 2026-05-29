@@ -1,4 +1,4 @@
-#  Sports Research Agent — Deep Technical Documentation
+#  Sports Research Agent : Deep Technical Documentation
 
 > **Project:** Sports Research Agent with Adaptive Query Rephrasing  
 > **Architecture:** Agentic RAG (Retrieval-Augmented Generation)  
