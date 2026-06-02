@@ -54,7 +54,7 @@ This autonomy differentiates it from vanilla RAG’s linear pipeline, allowing s
 | **Decision Making**   | Agent routes queries to retriever or generator based on reasoning steps.     | Evaluator + planner nodes autonomously trigger re-retrieval or re-generation.  |
 | **Query Handling**    | Single query handled by agent with tool routing.                            | Complex queries decomposed into sub-queries by planner/decomposer.             |
 | **Reflection**        | Limited; agent may retry but lacks structured self-reflection.               | Built-in reflection/evaluator nodes ensure iterative refinement.                |
-| **Adaptability**      | Reactive — responds to query context but follows agent’s reasoning only.     | Adaptive — workflow graph allows branching, retries, and synthesis loops.       |
+| **Adaptability**      | Reactive responds to query context but follows agent’s reasoning only.     | Adaptive workflow graph allows branching, retries, and synthesis loops.       |
 | **Answer Quality**    | Dependent on agent’s reasoning and tool use.                                | Improved via iterative retrieval, evaluation, and synthesis of multiple sources.|
 | **Pipeline Structure**| Linear with agent node as central controller.                               | Graph-based with shared state, conditional edges, and autonomous loops.         |
 | **Use Case Fit**      | Best for tool-rich environments needing flexible routing.                   | Best for complex, multi-step queries requiring accuracy and self-correction.    |
